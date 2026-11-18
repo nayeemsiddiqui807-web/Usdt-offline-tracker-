@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#102c3b">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <title>USDT Offline Tracker</title>
 <style>
 :root{--navy:#102c3b;--teal:#baf2df;--bg:#f3f6f8;--card:#fff;--ink:#182630;--muted:#647581;--line:#dce4e9;--green:#087f5b;--red:#c0392b}
@@ -122,4 +124,13 @@ $('clearAll').onclick=()=>{if(confirm('Permanently delete all local app records?
 $('dailyDate').value=today();$('monthDate').value=today().slice(0,7);$('buyDate').value=today();$('sellDate').value=today();$('dailyDate').onchange=renderReports;$('monthDate').onchange=renderReports;
 load();$('openQty').value=data.openingQty;$('openRate').value=data.openingRate;render();
 })();
-</script></body></html>
+</script><script>
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js").catch(function (err) {
+      console.error("Service worker registration failed:", err);
+    });
+  });
+}
+</script>
+</body></html>
