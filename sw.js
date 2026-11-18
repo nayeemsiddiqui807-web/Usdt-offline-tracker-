@@ -1,4 +1,4 @@
-const CACHE_NAME = "usdt-tracker-pwa-v3";
+const CACHE_NAME = "usdt-tracker-pwa-v4";
 const APP_FILES = [
   "./",
   "./index.html",
