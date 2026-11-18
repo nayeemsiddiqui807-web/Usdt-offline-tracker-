@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#102c3b">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<title>USDT Offline Tracker</title>
+<style>
+:root{--navy:#102c3b;--teal:#baf2df;--bg:#f3f6f8;--card:#fff;--ink:#182630;--muted:#647581;--line:#dce4e9;--green:#087f5b;--red:#c0392b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink)}header{background:var(--navy);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:2}header h1{font-size:21px;margin:0 0 4px}header p{font-size:12px;color:#c4d9e0;margin:0}.wrap{max-width:760px;margin:auto;padding:12px 12px 88px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:10px}.stat small,.muted{color:var(--muted)}.stat small{font-size:11px;text-transform:uppercase;letter-spacing:.4px}.stat strong{display:block;font-size:20px;margin-top:5px;overflow-wrap:anywhere}.profit{background:#e6f7f0;border-color:#b7e7d3}.profit strong{color:var(--green)}h2{font-size:17px;margin:8px 0 12px}.nav{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:12px 0}.nav button{padding:10px 2px;font-size:12px;border:1px solid var(--line);background:white;border-radius:10px;color:var(--ink)}.nav button.active{background:var(--navy);color:white;border-color:var(--navy)}label{display:block;font-size:13px;font-weight:600;margin:10px 0 5px}input,select{width:100%;padding:12px;border:1px solid #cbd6dd;border-radius:10px;background:white;font:inherit;color:var(--ink)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;border-radius:10px;background:var(--navy);color:white;padding:13px 15px;font:600 14px system-ui;width:100%;margin-top:12px}.btn.secondary{background:white;color:var(--navy);border:1px solid var(--line)}.btn.google{background:#fff;color:#202124;border:1px solid #cbd6dd;display:flex;align-items:center;justify-content:center;gap:10px}.google-mark{font-weight:800;color:#4285f4;font-size:18px}.auth-divider{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin-top:12px}.auth-divider:before,.auth-divider:after{content:"";height:1px;background:var(--line);flex:1}.btn.danger{background:#fff0ee;color:var(--red);border:1px solid #ffd0c9}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.row span{color:var(--muted);font-size:13px}.row b{text-align:right;overflow-wrap:anywhere}.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin:9px 0;background:white}.pill{font-size:11px;font-weight:700;padding:4px 7px;border-radius:20px}.buy{background:#e5f2ff;color:#1559a6}.sell{background:#e4f8ef;color:#087f5b}.hidden{display:none!important}.notice{padding:10px;border-radius:10px;background:#fff5d9;margin:10px 0;font-size:13px}.foot{font-size:11px;color:var(--muted);line-height:1.45;margin-top:14px}.smallbtn{width:auto;margin:8px 5px 0 0;padding:8px 10px;font-size:12px}.empty{text-align:center;padding:24px 8px;color:var(--muted)}@media(min-width:600px){.stats{grid-template-columns:repeat(4,1fr)}}
+.modal-backdrop{position:fixed;inset:0;background:rgba(5,18,27,.62);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}.modal{width:min(100%,480px);max-height:90vh;overflow:auto;background:white;border-radius:16px;padding:20px;box-shadow:0 18px 60px rgba(0,0,0,.25)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.modal-head h2{margin:0}.close-btn{width:36px;height:36px;border:1px solid var(--line);border-radius:9px;background:white;font-size:22px;color:var(--ink)}.auth-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.auth-switch button{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:9px;padding:10px;font-weight:600}.auth-switch button.active{background:var(--navy);color:white}.auth-message{font-size:13px;line-height:1.5;color:var(--muted);margin-top:12px}.otp-box{letter-spacing:5px;text-align:center;font-size:22px;font-weight:700}
+</style></head>
+<body>
+<header><h1>USDT Tracker</h1><p>Customer ledger · Partial payments · Pending balance</p><p>Private account · Cloud sync · Phone and laptop</p></header>
+<section id="authGate" class="wrap">
+  <div class="card">
+    <h2>USDT Tracker Sign In</h2>
+    <p class="muted">Sign in to securely sync your tracker across your phone and laptop.</p>
+    <label>Email address</label><input id="authEmail" type="email" autocomplete="username" placeholder="Enter your email address">
+    <label>Password</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="Enter your password">
+    <button class="btn" id="signInBtn" type="button">Sign In</button>
+    <button class="btn secondary" id="openSignupBtn" type="button">Sign Up</button>
+    <p id="authMessage" class="auth-message">Already have an account? Sign in. New here? Tap Sign Up.</p>
+  </div>
+</section>
+<div id="signupModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
+  <div class="modal">
+    <div class="modal-head"><h2 id="signupTitle">Sign Up</h2><button class="close-btn" id="closeSignupBtn" type="button" aria-label="Close">×</button></div>
+    <p class="muted">Choose how you want to create your private USDT Tracker account. Each account has separate records.</p>
+    <div id="signupChoice">
+      <button class="btn google" id="googleSignupBtn" type="button"><span class="google-mark">G</span> Sign up with Google</button>
+      <button class="btn secondary" id="createEmailAccountBtn" type="button">Create Account with Email</button>
+    </div>
+    <div id="signupFields" class="hidden">
+      <button class="btn secondary smallbtn" id="backToSignupChoiceBtn" type="button">← Back to signup options</button>
+      <label>Email address</label><input id="signupEmail" type="email" autocomplete="email" placeholder="Enter your Gmail or email address">
+      <label>Create password</label><input id="signupPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Minimum 8 characters">
+      <button class="btn" id="sendOtpBtn" type="button">Create Account & Send OTP</button>
+    </div>
+    <div id="otpFields" class="hidden">
+      <p class="notice">A verification code has been sent to your email. Check Inbox and Spam.</p>
+      <label>6-digit email OTP</label><input id="signupOtp" class="otp-box" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
+      <button class="btn" id="verifyOtpBtn" type="button">Verify OTP & Create Account</button>
+      <button class="btn secondary" id="resendOtpBtn" type="button">Resend OTP</button>
+    </div>
+    <p id="signupMessage" class="auth-message">Choose Google or create an account with email.</p>
+  </div>
+</div>
+<main class="wrap hidden" id="trackerApp">
+<div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+  <span id="syncStatus" class="muted">Connecting to cloud...</span>
+  <button class="btn secondary smallbtn" id="signOutBtn">Sign out</button>
+</div>
+<div id="notice" class="notice hidden"></div>
+<div class="stats">
+<div class="card stat"><small>USDT in stock</small><strong id="stock">0</strong></div>
+<div class="card stat"><small>Average cost</small><strong id="avg">₹0.00</strong></div>
+<div class="card stat profit"><small>Realized profit</small><strong id="profit">₹0.00</strong></div>
+<div class="card stat"><small>Sales total</small><strong id="sales">₹0.00</strong></div>
+<div class="card stat"><small>Payment received</small><strong id="received">₹0.00</strong></div>
+<div class="card stat"><small>Pending collection</small><strong id="pending">₹0.00</strong></div>
+</div>
+<div class="nav">
+<button data-tab="home" class="active">Home</button><button data-tab="buy">Buy</button><button data-tab="sell">Sell</button><button data-tab="reports">Reports</button><button data-tab="history">History</button>
+</div>
+<section id="home">
+<div class="card"><h2>Inventory summary</h2>
+<div class="row"><span>Total bought</span><b id="bqty">0 USDT</b></div>
+<div class="row"><span>Total buy amount (fees included)</span><b id="bcost">₹0.00</b></div>
+<div class="row"><span>Total sold</span><b id="sqty">0 USDT</b></div>
+<div class="row"><span>Sales fees</span><b id="sfees">₹0.00</b></div>
+<div class="row"><span>Total payment received</span><b id="homeReceived">₹0.00</b></div>
+<div class="row"><span>Total pending from customers</span><b id="homePending">₹0.00</b></div>
+<div class="row"><span>Stock cost value</span><b id="stockcost">₹0.00</b></div>
+</div>
+<div class="card"><h2>Opening stock (optional)</h2><p class="muted">If you already hold USDT, enter its quantity and original average cost before adding new trades.</p>
+<div class="grid"><div><label>Opening quantity</label><input id="openQty" type="number" min="0" step="any" placeholder="0"></div><div><label>Opening cost ₹/USDT</label><input id="openRate" type="number" min="0" step="any" placeholder="0"></div></div>
+<button class="btn" id="saveOpening">Save opening stock</button>
+</div>
+</section>
+<section id="buy" class="hidden"><div class="card"><h2>Record purchase</h2>
+<label>Date</label><input id="buyDate" type="date">
+<label>Supplier / reference (optional)</label><input id="buyRef" placeholder="Seller or trade reference">
+<div class="grid"><div><label>Quantity (USDT)</label><input id="buyQty" type="number" min="0.00000001" step="any" placeholder="100"></div><div><label>Buy rate (₹/USDT)</label><input id="buyRate" type="number" min="0.00000001" step="any" placeholder="90"></div></div>
+<label>Buy fee (optional, ₹)</label><input id="buyFee" type="number" min="0" step="any" value="0">
+<div class="row"><span>Buy amount</span><b id="buyPreview">₹0.00</b></div><button class="btn" id="addBuy">Save buy entry</button>
+<p class="foot">Fee defaults to ₹0. Amount = quantity × rate + fee.</p></div></section>
+<section id="sell" class="hidden"><div class="card"><h2>Record sale</h2>
+<label>Date</label><input id="sellDate" type="date">
+<label>Customer name</label><input id="sellCustomer" placeholder="e.g. Masood Bhai">
+<label>Sale reference (optional)</label><input id="sellRef" placeholder="Trade / delivery reference">
+<div class="grid"><div><label>Quantity (USDT)</label><input id="sellQty" type="number" min="0.00000001" step="any" placeholder="50"></div><div><label>Sell rate (₹/USDT)</label><input id="sellRate" type="number" min="0.00000001" step="any" placeholder="91"></div></div>
+<label>Sell fee (optional, ₹)</label><input id="sellFee" type="number" min="0" step="any" value="0">
+<label>Payment received now (₹)</label><input id="sellReceived" type="number" min="0" step="any" value="0" placeholder="0">
+<label>Payment method</label><select id="sellMethod"><option value="Cash">Cash</option><option value="Online">Online</option><option value="Other">Other (COD / USDT returned etc.)</option></select>
+<div class="row"><span>Sale amount before fee</span><b id="sellPreview">₹0.00</b></div>
+<div class="row"><span>Pending after this payment</span><b id="sellPendingPreview">₹0.00</b></div>
+<button class="btn" id="addSell">Save sale & payment</button>
+<p class="foot">Enter the amount received now. Remaining amount becomes customer pending. You can record later payments from History. Fee defaults to ₹0.</p></div></section>
+<section id="reports" class="hidden"><div class="card"><h2>Daily report</h2><label>Choose date</label><input type="date" id="dailyDate"><div id="dailyReport"></div></div>
+<div class="card"><h2>Monthly report</h2><label>Choose month</label><input type="month" id="monthDate"><div id="monthlyReport"></div></div></section>
+<section id="history" class="hidden"><div class="card"><h2>Transaction history</h2><p class="muted">Entries are processed by date; buys are processed before sells on the same date. Avoid changing your phone date for trade entries.</p><div id="historyList"></div></div></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(()=> {
+const KEY='usdt_offline_tracker_v1';
+const SUPABASE_URL='https://jersgditfrradpwdwqjp.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_zgMmU9dJS8PYAZ8hdk7yNA_lL3SvoiB';
+const cloud=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+let currentUser=null, cloudReady=false, realtimeChannel=null;
+const $=id=>document.getElementById(id);
+const today=()=>new Date().toISOString().slice(0,10);
+const money=n=>'₹'+Number(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const qty=n=>Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:8});
+const num=v=>Number(v)||0;
+let data={version:1,openingQty:0,openingRate:0,transactions:[]};
+function loadLocal(){try{const s=localStorage.getItem(KEY);if(s){const p=JSON.parse(s);if(p&&Array.isArray(p.transactions)){data={version:1,openingQty:num(p.openingQty),openingRate:num(p.openingRate),transactions:p.transactions};}}}catch(e){show('Could not read saved local data.');}}
+let saveQueue=Promise.resolve(),lastCloudData=null;
+async function writeCloudSnapshot(snapshot){
+  // Do not depend on a UNIQUE constraint for user_id: find the user's row first.
+  const lookup=await cloud.from('tracker_data').select('user_id').eq('user_id',currentUser.id).maybeSingle();
+  if(lookup.error) throw new Error('Cloud read check failed: '+lookup.error.message);
+  let write;
+  const payload={data:snapshot,updated_at:new Date().toISOString()};
+  if(lookup.data){
+    write=await cloud.from('tracker_data').update(payload).eq('user_id',currentUser.id);
+  }else{
+    write=await cloud.from('tracker_data').insert({user_id:currentUser.id,...payload});
+  }
+  if(write.error) throw new Error('Cloud write failed: '+write.error.message);
+  // Read-after-write verification: show success only if the exact snapshot is in Supabase.
+  const check=await cloud.from('tracker_data').select('data').eq('user_id',currentUser.id).maybeSingle();
+  if(check.error) throw new Error('Cloud verification failed: '+check.error.message);
+  if(!check.data || JSON.stringify(check.data.data)!==JSON.stringify(snapshot))
+    throw new Error('Cloud verification failed: saved data did not match this entry.');
+}
+async function save(){
+  if(!currentUser||!cloudReady){$('syncStatus').textContent='Cloud not connected';show('Not saved: please sign in and wait until Cloud connected appears.');return false;}
+  const snapshot=JSON.parse(JSON.stringify(data));
+  $('syncStatus').textContent='Saving to cloud...';
+  const task=saveQueue.catch(()=>{}).then(()=>writeCloudSnapshot(snapshot));
+  saveQueue=task;
+  try{
+    await task;
+    lastCloudData=JSON.parse(JSON.stringify(snapshot));
+    localStorage.setItem(KEY,JSON.stringify(snapshot));
+    $('syncStatus').textContent='Saved and verified in cloud ✓';
+    render();
+    return true;
+  }catch(error){
+    if(lastCloudData) data=JSON.parse(JSON.stringify(lastCloudData));
+    $('syncStatus').textContent='CLOUD SAVE FAILED';
+    render();
+    show('DATA CLOUD MEIN SAVE NAHI HUA: '+(error.message||'Unknown error')+'. Please send this error screenshot.');
+    return false;
+  }
+}
+
+async function loadCloud(){ $('syncStatus').textContent='Loading cloud data...';const {data:row,error}=await cloud.from('tracker_data').select('data').eq('user_id',currentUser.id).maybeSingle();if(error){$('syncStatus').textContent='Cloud connection error';show('Could not load cloud data: '+error.message);return;}if(row&&row.data&&Array.isArray(row.data.transactions)){data={version:1,openingQty:num(row.data.openingQty),openingRate:num(row.data.openingRate),transactions:row.data.transactions};}else{data={version:1,openingQty:0,openingRate:0,transactions:[]};const {error:insertError}=await cloud.from('tracker_data').insert({user_id:currentUser.id,data:data,updated_at:new Date().toISOString()});if(insertError){show('Could not create cloud record: '+insertError.message);return;}}cloudReady=true;lastCloudData=JSON.parse(JSON.stringify(data));localStorage.setItem(KEY,JSON.stringify(data));$('authGate').classList.add('hidden');$('trackerApp').classList.remove('hidden');$('syncStatus').textContent='Cloud connected ✓';$('openQty').value=data.openingQty;$('openRate').value=data.openingRate;render();if(realtimeChannel)cloud.removeChannel(realtimeChannel);realtimeChannel=cloud.channel('tracker-sync-'+currentUser.id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'tracker_data',filter:'user_id=eq.'+currentUser.id},payload=>{if(payload.new&&payload.new.data){data=payload.new.data;lastCloudData=JSON.parse(JSON.stringify(data));localStorage.setItem(KEY,JSON.stringify(data));$('openQty').value=data.openingQty;$('openRate').value=data.openingRate;render();$('syncStatus').textContent='Updated from another device ✓';}}).subscribe();}
+async function handleAuth(){const {data:{session}}=await cloud.auth.getSession();if(session){currentUser=session.user;await loadCloud();}else{$('authGate').classList.remove('hidden');$('trackerApp').classList.add('hidden');}}
+function openSignupModal(){ $('signupModal').classList.remove('hidden'); $('signupChoice').classList.remove('hidden'); $('signupFields').classList.add('hidden'); $('otpFields').classList.add('hidden'); $('signupMessage').textContent='Choose Google or create an account with email.'; }
+function closeSignupModal(){ $('signupModal').classList.add('hidden'); }
+$('openSignupBtn').onclick=openSignupModal;
+async function signInWithGoogle(){ $('signupMessage').textContent='Redirecting to Google...'; const {error}=await cloud.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}}); if(error){$('signupMessage').textContent='Google signup error: '+error.message;} }
+$('googleSignupBtn').onclick=signInWithGoogle;
+$('createEmailAccountBtn').onclick=()=>{ $('signupChoice').classList.add('hidden'); $('signupFields').classList.remove('hidden'); $('signupMessage').textContent='Enter your email and create a password. We will send a 6-digit OTP.'; };
+$('backToSignupChoiceBtn').onclick=()=>{ $('signupFields').classList.add('hidden'); $('otpFields').classList.add('hidden'); $('signupChoice').classList.remove('hidden'); $('signupMessage').textContent='Choose Google or create an account with email.'; };
+$('closeSignupBtn').onclick=closeSignupModal;
+$('signupModal').addEventListener('click',e=>{if(e.target===$('signupModal'))closeSignupModal();});
+async function sendSignupOtp(){const email=$('signupEmail').value.trim(),password=$('signupPassword').value;if(!email||!email.includes('@')){$('signupMessage').textContent='Please enter a valid email address.';return;}if(password.length<8){$('signupMessage').textContent='Password must be at least 8 characters.';return;}$('sendOtpBtn').disabled=true;$('signupMessage').textContent='Creating account and sending OTP...';const {data,error}=await cloud.auth.signUp({email,password,options:{emailRedirectTo:location.href}});$('sendOtpBtn').disabled=false;if(error){$('signupMessage').textContent=error.message;return;}if(data.session&&data.user){currentUser=data.user;closeSignupModal();await loadCloud();return;}$('signupFields').classList.add('hidden');$('otpFields').classList.remove('hidden');$('signupMessage').textContent='OTP sent to '+email+'. Enter the 6-digit code from your email. If the email contains a link instead of a code, the Supabase Confirm signup email template must be changed to use {{ .Token }}.';}
+$('sendOtpBtn').onclick=sendSignupOtp;
+$('resendOtpBtn').onclick=async()=>{const email=$('signupEmail').value.trim();if(!email){$('signupMessage').textContent='Enter your email address first.';return;}$('resendOtpBtn').disabled=true;$('signupMessage').textContent='Resending OTP...';const {error}=await cloud.auth.resend({type:'signup',email});$('resendOtpBtn').disabled=false;$('signupMessage').textContent=error?error.message:'A new verification code has been requested. Check your email inbox and Spam folder.';};
+$('verifyOtpBtn').onclick=async()=>{const email=$('signupEmail').value.trim(),token=$('signupOtp').value.trim();if(!/^\d{6}$/.test(token)){$('signupMessage').textContent='Enter the 6-digit OTP from your email.';return;}$('verifyOtpBtn').disabled=true;$('signupMessage').textContent='Verifying OTP...';const {data,error}=await cloud.auth.verifyOtp({email,token,type:'signup'});$('verifyOtpBtn').disabled=false;if(error){$('signupMessage').textContent=error.message;return;}currentUser=data.user;closeSignupModal();await loadCloud();};
+$('signInBtn').onclick=async()=>{const email=$('authEmail').value.trim(),password=$('authPassword').value;if(!email||!password){$('authMessage').textContent='Enter your email and password.';return;}$('authMessage').textContent='Signing in...';const {data,error}=await cloud.auth.signInWithPassword({email,password});if(error){$('authMessage').textContent=error.message;return;}currentUser=data.user;await loadCloud();};
+$('signOutBtn').onclick=async()=>{cloudReady=false;currentUser=null;if(realtimeChannel)await cloud.removeChannel(realtimeChannel);await cloud.auth.signOut();$('trackerApp').classList.add('hidden');$('authGate').classList.remove('hidden');$('authMessage').textContent='Signed out.';};
+cloud.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){currentUser=null;cloudReady=false;$('trackerApp').classList.add('hidden');$('authGate').classList.remove('hidden');}});
+
+function show(msg){$('notice').textContent=msg;$('notice').classList.remove('hidden');setTimeout(()=> $('notice').classList.add('hidden'),5000);}
+function events(){return data.transactions.filter(t=>t.type==='BUY'||t.type==='SELL').sort((a,b)=>a.date.localeCompare(b.date)||(a.type===b.type?a.created-b.created:a.type==='BUY'?-1:1));}
+function salePayments(saleId){return data.transactions.filter(t=>t.type==='PAYMENT'&&t.saleId===saleId).reduce((s,t)=>s+t.amount,0);}
+function saleGross(s){return s.qty*s.rate;}
+function salePending(s){return Math.max(0,saleGross(s)-salePayments(s));}
+function paymentTotals(){const sales=data.transactions.filter(t=>t.type==='SELL');const received=data.transactions.filter(t=>t.type==='PAYMENT').reduce((s,t)=>s+t.amount,0);const total=sales.reduce((s,t)=>s+saleGross(t),0);return {received,pending:Math.max(0,total-received),total};}
+function addPayment(saleId,amount,method,date=today(),note=''){const sale=data.transactions.find(t=>t.id===saleId&&t.type==='SELL');if(!sale||!(amount>0)){show('Enter a valid payment amount.');return false;}const pending=salePending(sale);if(amount>pending+0.005){show('Payment cannot be more than pending amount: '+money(pending));return false;}data.transactions.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),type:'PAYMENT',saleId,amount,method,date,note,created:Date.now()});return true;}
+function calc(until=null){let q=num(data.openingQty),cost=q*num(data.openingRate),realized=0,invalid=[];const rows=[];for(const t of events()){if(until&&t.date>until)continue;if(t.type==='BUY'){q+=t.qty;cost+=t.qty*t.rate+t.fee;rows.push({...t,stockAfter:q,costAfter:cost,profit:null});}else{if(t.qty>q+1e-8){invalid.push(t);rows.push({...t,invalid:true,stockAfter:q,costAfter:cost,profit:null});continue;}const avg=q>0?cost/q:0;const p=t.qty*t.rate-t.fee-t.qty*avg;realized+=p;q-=t.qty;cost-=t.qty*avg;if(q<1e-8){q=0;cost=0;}rows.push({...t,stockAfter:q,costAfter:cost,profit:p,unitCost:avg});}}return {q,cost,avg:q>0?cost/q:0,realized,invalid,rows};}
+function summaryFor(start,end){const all=events().filter(t=>t.date>=start&&t.date<=end);const buys=all.filter(t=>t.type==='BUY'),sells=all.filter(t=>t.type==='SELL');let buyQty=buys.reduce((s,t)=>s+t.qty,0),buyAmount=buys.reduce((s,t)=>s+t.qty*t.rate+t.fee,0),sellQty=sells.reduce((s,t)=>s+t.qty,0),revenue=sells.reduce((s,t)=>s+t.qty*t.rate,0),sellFees=sells.reduce((s,t)=>s+t.fee,0);let before=calc(start==='0000-00-00'?null:previousDay(start));let costBasis=0,profit=0;for(const r of calc(end).rows){if(r.date>=start&&r.date<=end&&r.type==='SELL'&&!r.invalid)profit+=r.profit;}const periodSales=sells;const periodReceived=periodSales.reduce((sum,s)=>sum+salePayments(s.id),0);const periodPending=periodSales.reduce((sum,s)=>sum+salePending(s),0);const receivedDuring=data.transactions.filter(t=>t.type==='PAYMENT'&&t.date>=start&&t.date<=end).reduce((sum,t)=>sum+t.amount,0);return {buyQty,buyAmount,sellQty,revenue,sellFees,profit,periodReceived,periodPending,receivedDuring};}
+function previousDay(s){let d=new Date(s+'T12:00:00');d.setDate(d.getDate()-1);return d.toISOString().slice(0,10);}
+function render(){const c=calc();const buys=data.transactions.filter(t=>t.type==='BUY'),sells=data.transactions.filter(t=>t.type==='SELL'),pt=paymentTotals();$('received').textContent=money(pt.received);$('pending').textContent=money(pt.pending);$('homeReceived').textContent=money(pt.received);$('homePending').textContent=money(pt.pending);$('stock').textContent=qty(c.q);$('avg').textContent=money(c.avg);$('profit').textContent=money(c.realized);$('sales').textContent=money(sells.reduce((s,t)=>s+t.qty*t.rate,0));$('bqty').textContent=qty(buys.reduce((s,t)=>s+t.qty,0)+num(data.openingQty))+' USDT';$('bcost').textContent=money(buys.reduce((s,t)=>s+t.qty*t.rate+t.fee,0)+num(data.openingQty)*num(data.openingRate));$('sqty').textContent=qty(sells.reduce((s,t)=>s+t.qty,0))+' USDT';$('sfees').textContent=money(sells.reduce((s,t)=>s+t.fee,0));$('stockcost').textContent=money(c.cost);
+if(c.invalid.length)show('Warning: '+c.invalid.length+' sale(s) exceed available inventory in date order. Check opening stock or transactions.');
+renderHistory();renderReports();preview();}
+function preview(){$('buyPreview').textContent=money(num($('buyQty').value)*num($('buyRate').value)+num($('buyFee').value));const gross=num($('sellQty').value)*num($('sellRate').value),fee=num($('sellFee').value),received=num($('sellReceived').value);$('sellPreview').textContent=money(gross);$('sellPendingPreview').textContent=money(Math.max(0,gross-received));}
+function renderHistory(){
+const box=$('historyList'),arr=[...data.transactions].sort((a,b)=>b.date.localeCompare(a.date)||(b.created||0)-(a.created||0));
+if(!arr.length){box.innerHTML='<div class="empty">No transactions yet. Add your first Buy or Sell entry.</div>';return;}
+box.innerHTML=arr.map(t=>{
+if(t.type==='PAYMENT'){
+ const sale=data.transactions.find(x=>x.type==='SELL'&&x.id===t.saleId);
+ return `<div class="item"><div class="row"><span class="pill sell">PAYMENT RECEIVED</span><span>${escapeHtml(t.date||'')}</span></div><b>${escapeHtml(sale?.customer||'Customer')} · ${money(t.amount)}</b><div class="muted">${escapeHtml(t.method||'Other')} · ${escapeHtml(t.note||'Customer payment')}</div><button class="btn secondary smallbtn" data-edit="${t.id}">Edit</button><button class="btn danger smallbtn" data-delete="${t.id}">Delete payment</button></div>`;
+}
+if(t.type==='BUY'){
+ return `<div class="item"><div class="row"><span class="pill buy">BUY</span><span>${escapeHtml(t.date||'')}</span></div><b>${escapeHtml(t.ref||'Purchase')}</b><div class="row"><span>${qty(t.qty)} USDT × ${money(t.rate)}</span><b>${money(t.qty*t.rate+t.fee)}</b></div><div class="row"><span>Buy fee</span><b>${money(t.fee)}</b></div><button class="btn secondary smallbtn" data-edit="${t.id}">Edit</button><button class="btn danger smallbtn" data-delete="${t.id}">Delete entry</button></div>`;
+}
+const received=salePayments(t.id),pending=salePending(t);
+return `<div class="item"><div class="row"><span class="pill sell">SELL</span><span>${escapeHtml(t.date||'')}</span></div><b>${escapeHtml(t.customer||'Customer not named')}</b><div class="muted">${escapeHtml(t.ref||'Sale')}</div><div class="row"><span>${qty(t.qty)} USDT × ${money(t.rate)}</span><b>${money(saleGross(t))}</b></div><div class="row"><span>Payment received</span><b>${money(received)}</b></div><div class="row"><span>Pending</span><b style="color:${pending>0?'#c0392b':'#087f5b'}">${money(pending)}</b></div><div class="row"><span>Sell fee</span><b>${money(t.fee)}</b></div>${pending>0.005?`<button class="btn smallbtn" data-pay="${t.id}">Receive payment</button>`:''}<button class="btn secondary smallbtn" data-edit="${t.id}">Edit</button><button class="btn danger smallbtn" data-delete="${t.id}">Delete sale</button></div>`;
+}).join('');
+box.querySelectorAll('[data-pay]').forEach(b=>b.onclick=async()=>{const sale=data.transactions.find(t=>t.id===b.dataset.pay);const left=salePending(sale);const amount=prompt('Pending amount: '+money(left)+'\nPayment received now (₹):',left.toFixed(2));if(amount===null)return;const method=prompt('Payment method type exactly: Cash, Online, or Other','Cash');if(method===null)return;const m=['cash','online','other'].includes(method.trim().toLowerCase())?method.trim().replace(/^./,c=>c.toUpperCase()):'';if(!m){show('Method must be Cash, Online, or Other.');return;}const date=prompt('Payment date (YYYY-MM-DD):',today());if(date===null)return;if(addPayment(sale.id,num(amount),m,date)){if(await save())show('Payment cloud mein save ho gaya. Pending balance update ho gaya.');}});
+box.querySelectorAll('[data-edit]').forEach(b=>b.onclick=async()=>{await editTransaction(b.dataset.edit);});
+box.querySelectorAll('[data-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this transaction? If this is a sale, its linked payment receipts will also be deleted.'))return;const id=b.dataset.delete;const t=data.transactions.find(x=>x.id===id);const old=data.transactions;data.transactions=data.transactions.filter(x=>x.id!==id&&!(t&&t.type==='SELL'&&x.type==='PAYMENT'&&x.saleId===id));if(await save())show('Entry deleted from cloud and totals recalculated.');else data.transactions=old;render();});
+}
+async function editTransaction(id){
+ const t=data.transactions.find(x=>x.id===id);if(!t)return;
+ const ask=(label,value)=>prompt(label,value==null?'':String(value));
+ const date=ask('Date (YYYY-MM-DD):',t.date||today());if(date===null)return;
+ if(t.type==='BUY'||t.type==='SELL'){
+  const q=ask('Quantity (USDT):',t.qty);if(q===null)return;
+  const rate=ask('Rate (₹ per USDT):',t.rate);if(rate===null)return;
+  const fee=ask('Fee (₹):',t.fee||0);if(fee===null)return;
+  const ref=ask(t.type==='BUY'?'Supplier / reference:':'Sale reference:',t.ref||'');if(ref===null)return;
+  let customer=t.customer||'';
+  if(t.type==='SELL'){customer=ask('Customer name:',customer);if(customer===null)return;}
+  const nq=Number(q),nr=Number(rate),nf=Number(fee);
+  if(!(nq>0&&nr>0&&nf>=0)||!date||!/^\d{4}-\d{2}-\d{2}$/.test(date)){show('Invalid date, quantity, rate or fee.');return;}
+  if(t.type==='SELL'&&!customer.trim()){show('Customer name is required.');return;}
+  const previous={...t};Object.assign(t,{date,qty:nq,rate:nr,fee:nf,ref:ref.trim(),customer:customer.trim()});
+  if(t.type==='SELL'){
+   const paid=salePayments(t.id);if(paid>nq*nr+0.005){Object.assign(t,previous);show('Sale amount existing received payments se kam nahi ho sakta.');return;}
+   let stock=num(data.openingQty);for(const e of events()){if(e.type==='BUY')stock+=e.qty;else{if(e.qty>stock+1e-8){Object.assign(t,previous);show('Edit invalid: available USDT stock se zyada sale ho rahi hai.');return;}stock-=e.qty;}}
+  }
+ }else if(t.type==='PAYMENT'){
+  const amount=ask('Payment amount (₹):',t.amount);if(amount===null)return;
+  const method=ask('Payment method (Cash / Online / Other):',t.method||'Cash');if(method===null)return;
+  const note=ask('Payment note:',t.note||'');if(note===null)return;
+  const n=Number(amount),sale=data.transactions.find(x=>x.type==='SELL'&&x.id===t.saleId);
+  if(!(n>0)||!sale){show('Invalid payment amount or linked sale.');return;}
+  const otherPaid=data.transactions.filter(x=>x.type==='PAYMENT'&&x.saleId===t.saleId&&x.id!==t.id).reduce((sum,x)=>sum+num(x.amount),0);
+  if(otherPaid+n>saleGross(sale)+0.005){show('Total received sale amount se zyada nahi ho sakta.');return;}
+  t.amount=n;t.method=method.trim();t.note=note;
+ }
+ t.date=date;t.editedAt=Date.now();
+ if(await save())show('Same entry updated and saved to cloud.');
+}
+
+function reportHtml(s){return `<div class="row"><span>Buy quantity</span><b>${qty(s.buyQty)} USDT</b></div><div class="row"><span>Purchase amount incl. buy fees</span><b>${money(s.buyAmount)}</b></div><div class="row"><span>Sell quantity</span><b>${qty(s.sellQty)} USDT</b></div><div class="row"><span>Sales revenue</span><b>${money(s.revenue)}</b></div><div class="row"><span>Sell fees</span><b>${money(s.sellFees)}</b></div><div class="row"><span>Payment received against these sales</span><b>${money(s.periodReceived)}</b></div><div class="row"><span>Pending from these sales</span><b>${money(s.periodPending)}</b></div><div class="row"><span>All payments collected in this period</span><b>${money(s.receivedDuring)}</b></div><div class="row"><span>Realized profit on sales</span><b>${money(s.profit)}</b></div>`;}
+function renderReports(){const d=$('dailyDate').value||today(),m=$('monthDate').value||today().slice(0,7);$('dailyReport').innerHTML=reportHtml(summaryFor(d,d));$('monthlyReport').innerHTML=reportHtml(summaryFor(m+'-01',m+'-31'));}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function add(type){const isB=type==='BUY',date=$(isB?'buyDate':'sellDate').value||today(),q=num($(isB?'buyQty':'sellQty').value),rate=num($(isB?'buyRate':'sellRate').value),fee=num($(isB?'buyFee':'sellFee').value),ref=$(isB?'buyRef':'sellRef').value.trim();const customer=isB?'':$('sellCustomer').value.trim(),received=isB?0:num($('sellReceived').value),method=isB?'':$('sellMethod').value;if(!(q>0&&rate>0&&fee>=0)){show('Enter a quantity and rate above zero. Fee must be zero or more.');return;}if(!isB&&!customer){show('Please enter customer name.');return;}if(!isB&&(received<0||received>q*rate+0.005)){show('Payment received cannot exceed sale amount after fee.');return;}const id=Date.now().toString(36)+Math.random().toString(36).slice(2,7);const t={id,type,date,qty:q,rate,fee,ref,customer,created:Date.now()};if(!isB){const test=[...events(),t].sort((a,b)=>a.date.localeCompare(b.date)||(a.type===b.type?a.created-b.created:a.type==='BUY'?-1:1));let stock=num(data.openingQty);for(const e of test){if(e.type==='BUY')stock+=e.qty;else{if(e.qty>stock+1e-8){show('Not saved: insufficient USDT stock on '+e.date+'. Check opening stock and earlier entries.');return;}stock-=e.qty;}}}data.transactions.push(t);if(!isB&&received>0){data.transactions.push({id:Date.now().toString(36)+'p'+Math.random().toString(36).slice(2,5),type:'PAYMENT',saleId:id,amount:received,method,date,note:'Payment received at time of sale',created:Date.now()+1});}if(!await save())return;$(isB?'buyQty':'sellQty').value='';$(isB?'buyRate':'sellRate').value='';$(isB?'buyFee':'sellFee').value='0';$(isB?'buyRef':'sellRef').value='';if(!isB){$('sellCustomer').value='';$('sellReceived').value='0';$('sellMethod').value='Cash';}show(type==='BUY'?'Buy entry saved to cloud.':'Sale and initial payment saved to cloud.');}
+function download(name,content,type){if(window.AndroidFiles&&window.AndroidFiles.saveText){window.AndroidFiles.saveText(name,type,content);return;}const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function exportJson(){download('usdt-tracker-backup-'+today()+'.json',JSON.stringify(data,null,2),'application/json');}
+function exportCsv(){const head=['id','type','date','reference_or_customer','quantity_usdt','rate_inr','fee_inr','amount_inr','payment_method','linked_sale_id'];const rows=data.transactions.map(t=>[t.id,t.type,t.date,'"'+String(t.customer||t.ref||t.note||'').replace(/"/g,'""')+'"',t.qty||'',t.rate||'',t.fee||'',(t.type==='PAYMENT'?t.amount:(t.qty*t.rate+(t.type==='BUY'?t.fee:-t.fee))).toFixed(2),t.method||'',t.saleId||''].join(','));download('usdt-transactions-'+today()+'.csv',[head.join(','),...rows].join('\n'),'text/csv');}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));['home','buy','sell','reports','history'].forEach(id=>$(id).classList.toggle('hidden',id!==b.dataset.tab));}));
+['buyQty','buyRate','buyFee','sellQty','sellRate','sellFee','sellReceived'].forEach(id=>$(id).addEventListener('input',preview));
+$('addBuy').onclick=()=>add('BUY');$('addSell').onclick=()=>add('SELL');
+$('saveOpening').onclick=async()=>{const q=num($('openQty').value),r=num($('openRate').value);if(q<0||r<0){show('Opening stock cannot be negative.');return;}if(data.transactions.some(t=>t.type==='SELL')&&q<num(data.openingQty)){show('Be careful: changing opening stock may invalidate earlier sales.');}data.openingQty=q;data.openingRate=r;if(await save())show('Opening stock saved to cloud.');};
+
+$('dailyDate').value=today();$('monthDate').value=today().slice(0,7);$('buyDate').value=today();$('sellDate').value=today();$('dailyDate').onchange=renderReports;$('monthDate').onchange=renderReports;
+handleAuth();
+})();
+</script><script>
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js").catch(function (err) {
+      console.error("Service worker registration failed:", err);
+    });
+  });
+}
+</script>
+</body></html>
